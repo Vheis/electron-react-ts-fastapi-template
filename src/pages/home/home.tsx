@@ -12,18 +12,18 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [refetchData, setRefetchData] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
 
-  useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
-    const shouldUseDark =
-      storedTheme === "dark" || (storedTheme === null && prefersDark);
-    setIsDarkMode(shouldUseDark);
-    document.documentElement.classList.toggle("dark", shouldUseDark);
-  }, []);
+
+    return storedTheme === "dark" || (storedTheme === null && prefersDark);
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
