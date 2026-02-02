@@ -118,3 +118,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes logo-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(-36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.logo-reveal {
+  opacity: 0;
+  transform: translateX(-36px);
+  animation: logo-reveal 1.4s ease-out forwards;
+}
