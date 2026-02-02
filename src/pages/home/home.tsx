@@ -58,10 +58,30 @@ const HomePage = () => {
         </div>
       </div>
       <div className="flex justify-center gap-8">
-        <img src={logoElectron} className="w-24 h-24" alt="Electron" />
-        <img src={logoReact} className="w-24 h-24" alt="React" />
-        <img src={logoVite} className="w-24 h-24" alt="Vite" />
-        <img src={logoFastAPI} className="w-24 h-24" alt="FastAPI" />
+        <img
+          src={logoElectron}
+          className="w-24 h-24 logo-reveal"
+          style={{ animationDelay: "0ms" }}
+          alt="Electron"
+        />
+        <img
+          src={logoReact}
+          className="w-24 h-24 logo-reveal"
+          style={{ animationDelay: "300ms" }}
+          alt="React"
+        />
+        <img
+          src={logoVite}
+          className="w-24 h-24 logo-reveal"
+          style={{ animationDelay: "600ms" }}
+          alt="Vite"
+        />
+        <img
+          src={logoFastAPI}
+          className="w-24 h-24 logo-reveal"
+          style={{ animationDelay: "900ms" }}
+          alt="FastAPI"
+        />
       </div>
       <h1 className="mt-4 text-lg text-center text-gray-700">
         This template is designed to quickly bootstrap projects.
