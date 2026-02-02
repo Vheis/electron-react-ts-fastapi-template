@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import useAxios from "@/hooks/useAxios";
 import { useEffect, useState } from "react";
 import logoVite from "../../assets/vite.svg";
@@ -11,6 +12,23 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [refetchData, setRefetchData] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    return storedTheme === "dark" || (storedTheme === null && prefersDark);
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +47,16 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 text-center">
+      <div className="flex w-full max-w-5xl items-center justify-end px-6">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Dark mode</span>
+          <Switch
+            checked={isDarkMode}
+            onCheckedChange={setIsDarkMode}
+            aria-label="Toggle dark mode"
+          />
+        </div>
+      </div>
       <div className="flex justify-center gap-8">
         <img src={logoElectron} className="w-24 h-24" alt="Electron" />
         <img src={logoReact} className="w-24 h-24" alt="React" />
