@@ -75,6 +75,7 @@ const ThemeSelector = ({
           className="min-w-40 justify-between gap-3"
           aria-haspopup="menu"
           aria-expanded={isOpen}
+          onClick={() => setIsOpen((previousIsOpen) => !previousIsOpen)}
         >
           <span className="flex items-center gap-2 text-foreground">
             <selectedTheme.icon className="size-4" />
