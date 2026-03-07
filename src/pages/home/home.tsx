@@ -1,3 +1,4 @@
+import AccountMenu from "@/components/account-menu";
 import { Button } from "@/components/ui/button";
 import ThemeSelector, { type ThemePreference } from "@/components/theme-selector";
 import useAxios from "@/hooks/useAxios";
@@ -87,15 +88,19 @@ const HomePage = () => {
   }, [axios, refetchData]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 text-center">
-      <div className="flex w-full max-w-5xl items-center justify-end px-6">
-        <ThemeSelector
-          value={themePreference}
-          resolvedTheme={resolvedTheme}
-          onChange={setThemePreference}
-        />
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-8 text-center">
+      <div className="page-shell absolute inset-0 -z-10" aria-hidden="true" />
+      <div className="flex w-full max-w-6xl items-start justify-end gap-4">
+        <div className="rounded-full border border-border/60 bg-background/85 px-4 py-2 shadow-lg shadow-black/5 backdrop-blur-md">
+          <ThemeSelector
+            value={themePreference}
+            resolvedTheme={resolvedTheme}
+            onChange={setThemePreference}
+          />
+        </div>
+        <AccountMenu />
       </div>
-      <div className="flex justify-center gap-8">
+      <div className="mt-20 flex justify-center gap-8">
         <img
           src={logoElectron}
           className="w-24 h-24 logo-reveal"
@@ -121,16 +126,16 @@ const HomePage = () => {
           alt="FastAPI"
         />
       </div>
-      <h1 className="mt-4 text-lg text-center text-gray-700">
+      <h1 className="mt-4 text-center text-lg text-gray-700 dark:text-gray-200">
         This template is designed to quickly bootstrap projects.
       </h1>
       <div className="mt-6">
-        <h3 className="text-center text-xl text-gray-600">
+        <h3 className="text-center text-xl text-gray-600 dark:text-gray-300">
           Start by customizing the components and backend to fit your needs.
           Happy coding!
         </h3>
       </div>
-      <p className="text-center text-lg my-6 h-4">
+      <p className="my-6 h-4 text-center text-lg">
         {loading ? "Loading" : <>{message}</>}
       </p>
       <div className="flex justify-center gap-4">

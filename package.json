@@ -11,7 +11,12 @@
     "build-electron": "electron-builder",
     "build-backend": "cd backend && pyinstaller -y --clean main.spec && cd ..",
     "build-frontend": "tsc && vite build",
+    "typecheck": "tsc --noEmit",
+    "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test:backend": "powershell -ExecutionPolicy Bypass -File scripts/run-backend-tests.ps1",
+    "verify:sandbox": "npm run lint && npm run typecheck && npm run typecheck:node",
+    "verify:full": "npm run verify:sandbox && npm run test:backend",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -1,0 +1,32 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="19" y1="14" x2="143" y2="149" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2F3037"/>
+      <stop offset="1" stop-color="#141B25"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="80" y1="28" x2="80" y2="109" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1B56D"/>
+      <stop offset="0.55" stop-color="#B4604A"/>
+      <stop offset="1" stop-color="#223746"/>
+    </linearGradient>
+    <linearGradient id="water" x1="29" y1="95" x2="136" y2="126" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#203A53"/>
+      <stop offset="1" stop-color="#14212D"/>
+    </linearGradient>
+    <clipPath id="clip">
+      <circle cx="80" cy="80" r="80"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <circle cx="80" cy="80" r="80" fill="url(#bg)"/>
+    <rect x="20" y="24" width="120" height="114" rx="26" fill="#101721"/>
+    <path d="M28 38C28 28.059 36.059 20 46 20H114C123.941 20 132 28.059 132 38V108H28V38Z" fill="url(#sky)"/>
+    <circle cx="112" cy="45" r="13" fill="#FFD28B" fill-opacity="0.96"/>
+    <path d="M22 109H138V140H22V109Z" fill="url(#water)"/>
+    <path d="M20 106L53 77L69 93L87 67L106 86L128 56L140 76V111H20V106Z" fill="#1B2230"/>
+    <path d="M20 115L42 101L61 109L82 98L100 107L121 94L140 103V140H20V115Z" fill="#27455A"/>
+    <path d="M24 122C37 116 52 118 67 124C82 130 95 132 112 125C122 121 132 121 140 124V140H24V122Z" fill="#39617B"/>
+    <path d="M96 49C96 39.6112 103.611 32 113 32C122.389 32 130 39.6112 130 49C130 58.3888 122.389 66 113 66C103.611 66 96 58.3888 96 49Z" fill="#FAD8A0" fill-opacity="0.25"/>
+    <path d="M52 28H108C121.255 28 132 38.7452 132 52V104H28V52C28 38.7452 38.7452 28 52 28Z" stroke="white" stroke-opacity="0.08" stroke-width="4"/>
+  </g>
+</svg>
