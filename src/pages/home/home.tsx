@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import ThemeSelector, { type ThemePreference } from "@/components/theme-selector";
 import useAxios from "@/hooks/useAxios";
 import { useEffect, useState } from "react";
 import logoVite from "../../assets/vite.svg";
@@ -7,28 +7,69 @@ import logoReact from "../../assets/react.svg";
 import logoElectron from "../../assets/electron.svg";
 import logoFastAPI from "../../assets/fastapi.svg";
 
+const getStoredThemePreference = (): ThemePreference => {
+  if (typeof window === "undefined") {
+    return "system";
+  }
+
+  const storedTheme = localStorage.getItem("theme");
+
+  if (
+    storedTheme === "light" ||
+    storedTheme === "dark" ||
+    storedTheme === "system"
+  ) {
+    return storedTheme;
+  }
+
+  return "system";
+};
+
+const getSystemPrefersDark = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
+
 const HomePage = () => {
   const axios = useAxios();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [refetchData, setRefetchData] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
+  const [themePreference, setThemePreference] = useState<ThemePreference>(
+    getStoredThemePreference
+  );
+  const [systemPrefersDark, setSystemPrefersDark] =
+    useState(getSystemPrefersDark);
 
-    const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    return storedTheme === "dark" || (storedTheme === null && prefersDark);
-  });
+  const resolvedTheme =
+    themePreference === "system"
+      ? systemPrefersDark
+        ? "dark"
+        : "light"
+      : themePreference;
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDarkMode);
-    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-  }, [isDarkMode]);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setSystemPrefersDark(event.matches);
+    };
+
+    setSystemPrefersDark(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+    localStorage.setItem("theme", themePreference);
+  }, [resolvedTheme, themePreference]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,19 +84,16 @@ const HomePage = () => {
       }
     };
     fetchData();
-  }, [refetchData]);
+  }, [axios, refetchData]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 text-center">
       <div className="flex w-full max-w-5xl items-center justify-end px-6">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>Dark mode</span>
-          <Switch
-            checked={isDarkMode}
-            onCheckedChange={setIsDarkMode}
-            aria-label="Toggle dark mode"
-          />
-        </div>
+        <ThemeSelector
+          value={themePreference}
+          resolvedTheme={resolvedTheme}
+          onChange={setThemePreference}
+        />
       </div>
       <div className="flex justify-center gap-8">
         <img
