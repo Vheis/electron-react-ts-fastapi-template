@@ -2,9 +2,8 @@ import { Check, ChevronDown, Monitor, Moon, Sun } from "lucide-react";
 import { useState, type FocusEvent } from "react";
 
 import { Button } from "@/components/ui/button";
+import { type ThemePreference } from "@/lib/theme";
 import { cn } from "@/lib/utils";
-
-export type ThemePreference = "light" | "dark" | "system";
 
 type ResolvedTheme = "light" | "dark";
 

@@ -1,38 +1,20 @@
 import AccountMenu from "@/components/account-menu";
 import { Button } from "@/components/ui/button";
-import ThemeSelector, { type ThemePreference } from "@/components/theme-selector";
+import ThemeSelector from "@/components/theme-selector";
+import useSystemPrefersDark from "@/hooks/useSystemPrefersDark";
 import useAxios from "@/hooks/useAxios";
+import {
+  applyResolvedTheme,
+  getStoredThemePreference,
+  persistThemePreference,
+  resolveTheme,
+  type ThemePreference,
+} from "@/lib/theme";
 import { useEffect, useState } from "react";
 import logoVite from "../../assets/vite.svg";
 import logoReact from "../../assets/react.svg";
 import logoElectron from "../../assets/electron.svg";
 import logoFastAPI from "../../assets/fastapi.svg";
-
-const getStoredThemePreference = (): ThemePreference => {
-  if (typeof window === "undefined") {
-    return "system";
-  }
-
-  const storedTheme = localStorage.getItem("theme");
-
-  if (
-    storedTheme === "light" ||
-    storedTheme === "dark" ||
-    storedTheme === "system"
-  ) {
-    return storedTheme;
-  }
-
-  return "system";
-};
-
-const getSystemPrefersDark = () => {
-  if (typeof window === "undefined") {
-    return false;
-  }
-
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-};
 
 const HomePage = () => {
   const axios = useAxios();
@@ -42,34 +24,12 @@ const HomePage = () => {
   const [themePreference, setThemePreference] = useState<ThemePreference>(
     getStoredThemePreference
   );
-  const [systemPrefersDark, setSystemPrefersDark] =
-    useState(getSystemPrefersDark);
-
-  const resolvedTheme =
-    themePreference === "system"
-      ? systemPrefersDark
-        ? "dark"
-        : "light"
-      : themePreference;
+  const systemPrefersDark = useSystemPrefersDark();
+  const resolvedTheme = resolveTheme(themePreference, systemPrefersDark);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setSystemPrefersDark(event.matches);
-    };
-
-    setSystemPrefersDark(mediaQuery.matches);
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
-    localStorage.setItem("theme", themePreference);
+    applyResolvedTheme(resolvedTheme);
+    persistThemePreference(themePreference);
   }, [resolvedTheme, themePreference]);
 
   useEffect(() => {

@@ -21,6 +21,9 @@ Run `npm install` once for frontend dependencies. Create and activate a Python v
 ## Coding Style & Naming Conventions
 Use TypeScript for frontend code and Python for backend code. Follow the existing style: semicolons in TypeScript, 2-space indentation in React files, and 4-space indentation in Python. Name React components with `PascalCase`, hooks with `useCamelCase`, utilities with `camelCase`, and page folders in lowercase, for example `src/pages/home/home.tsx`. Prefer small routers in `backend/app/api/` over growing `app.py`.
 
+## Documentation Check Requirement
+When implementing or changing a feature that depends on a third-party library or framework, use Context7 to check the current official documentation before writing code. Treat Context7 as the default source for API usage, lifecycle expectations, recommended patterns, and version-sensitive behavior. If the relevant docs are unavailable through Context7, state that clearly and use the best available primary source instead.
+
 ## Testing Guidelines
 Use `npm run verify:sandbox` as the default automated check in constrained environments where the frontend dev server cannot boot. For a fuller pass on a machine with a working Python install, run `npm run verify:full`. Backend tests currently live in `backend/app/test_app.py` because that path is writable in the sandbox; keep future backend tests alongside that file unless the repo is later reorganized. Future frontend tests should live beside the feature or under `src/__tests__/`.
 
